@@ -1,4 +1,3 @@
-/cmake-build-release-msvc_x64/
-/cmake-build-debug-msvc_x64/
+/cmake-build-*/
 /config.csv
 /timeline.csv
