@@ -1,4 +1,5 @@
 #include <processors/WindowProcessor.h>
+#include <thread>
 #include <iostream>
 
 using namespace processors;
@@ -15,6 +16,9 @@ int main(int argc, char *argv[]) {
         windowProcessor.getInfo();
         windowProcessor.keepState();
         windowProcessor.load(argv[2], argv[3]);
+        while (!(GetKeyState('Z') & 0x8000)) {
+            this_thread::sleep_for(chrono::microseconds(1));
+        }
         windowProcessor.start();
         return 0;
     } catch (std::exception &e) {

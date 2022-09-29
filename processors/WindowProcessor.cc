@@ -11,19 +11,20 @@ using namespace processors;
 using namespace std;
 using namespace structures;
 
-WindowProcessor::WindowProcessor(
-        const string &processName
-) {
-    _targetWindow = FindWindow(processName.c_str(), nullptr);
+WindowProcessor::WindowProcessor(const string &windowName) {
+    _targetWindow = FindWindow(windowName.c_str(), nullptr);
     if (!_targetWindow) {
-        throw out_of_range("Process not found");
+        _targetWindow = FindWindow(nullptr, windowName.c_str());
+        if (!_targetWindow) {
+            throw runtime_error("Couldn't find window: " + windowName);
+        }
     }
 }
 
 bool WindowProcessor::keepState() {
     bool result;
     do {
-        SetWindowPos(_targetWindow, HWND_TOPMOST, 10, 10, 1280, 720, SWP_SHOWWINDOW);
+        SetWindowPos(_targetWindow, HWND_TOPMOST, 100, 100, 1280, 720, SWP_SHOWWINDOW);
         result = SetForegroundWindow(_targetWindow);
     } while (!result);
     return true;
@@ -41,8 +42,6 @@ void WindowProcessor::load(const string &configName, const string &timelineName)
 }
 
 void WindowProcessor::start() const {
-    this_thread::sleep_for(chrono::milliseconds(3000));
-
     thread([this]() {
         this->_timeline->run();
     }).join();

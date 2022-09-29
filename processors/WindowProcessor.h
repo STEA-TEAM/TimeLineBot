@@ -10,7 +10,7 @@
 namespace processors {
     class WindowProcessor {
     public:
-        explicit WindowProcessor(const std::string &processName);
+        explicit WindowProcessor(const std::string &windowName);
 
         bool keepState();
 
